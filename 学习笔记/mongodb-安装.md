@@ -5,32 +5,32 @@
   - 文档（document）                            数据行
   
 - 下载
-  - wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-4.0.18.tgz
-- 安装前准备：
-  - 关闭大页内存机制
+  - wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-4.0.18.tgz  
+- 安装前准备：  
+  - 关闭大页内存机制  
     ########################################################################
     root用户下
     在vi /etc/rc.local最后添加如下代码
-    if test -f /sys/kernel/mm/transparent_hugepage/enabled; then
-    echo never > /sys/kernel/mm/transparent_hugepage/enabled
-    fi
-    if test -f /sys/kernel/mm/transparent_hugepage/defrag; then
-    echo never > /sys/kernel/mm/transparent_hugepage/defrag
-    fi
-            
-    cat  /sys/kernel/mm/transparent_hugepage/enabled        
-    cat /sys/kernel/mm/transparent_hugepage/defrag  
-    其他系统关闭参照官方文档：   
+    if test -f /sys/kernel/mm/transparent_hugepage/enabled; then  
+    echo never > /sys/kernel/mm/transparent_hugepage/enabled  
+    fi  
+    if test -f /sys/kernel/mm/transparent_hugepage/defrag; then  
+    echo never > /sys/kernel/mm/transparent_hugepage/defrag  
+    fi  
+              
+    cat  /sys/kernel/mm/transparent_hugepage/enabled          
+    cat /sys/kernel/mm/transparent_hugepage/defrag    
+    其他系统关闭参照官方文档：     
 
-    https://docs.mongodb.com/manual/tutorial/transparent-huge-pages/
+    https://docs.mongodb.com/manual/tutorial/transparent-huge-pages/  
     ---------------
-    为什么要关闭？
-    Transparent Huge Pages (THP) is a Linux memory management system 
-    that reduces the overhead of Translation Lookaside Buffer (TLB) 
-    lookups on machines with large amounts of memory by using larger memory pages.
-    However, database workloads often perform poorly with THP, 
-    because they tend to have sparse rather than contiguous memory access patterns. 
-    You should disable THP on Linux machines to ensure best performance with MongoDB.
+    为什么要关闭？  
+    Transparent Huge Pages (THP) is a Linux memory management system   
+    that reduces the overhead of Translation Lookaside Buffer (TLB)   
+    lookups on machines with large amounts of memory by using larger memory pages.  
+    However, database workloads often perform poorly with THP,   
+    because they tend to have sparse rather than contiguous memory access patterns.   
+    You should disable THP on Linux machines to ensure best performance with MongoDB.  
   - 创建mongodb用户
     - useradd mongodb
     - passwd mongodb
