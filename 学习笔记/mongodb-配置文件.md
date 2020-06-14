@@ -1,0 +1,24 @@
+- mongodb配置文件
+  - YAML模式
+  - 系统日志有关
+    - systemLog：
+      - destination：file               #位置点
+      - path："/app/mongodb/log/mongodb.log"  #日志文件位置
+      - logAppend: true             #日志以追加模式记录
+  - 数据存储相关：
+    - storage：
+      - journal：               #是否开启日志功能
+        - enabled: true
+      - dbPath: "/app/mongodb/data" #数据路径位置
+  - 进程相关：
+    - processManagement:
+      - fork: true      #后台守护进程
+      - pidFilePath: /app/mongodb/  #pid文件位置，一般不用设置
+  - 网络相关：
+    - net：
+      - bindIP: IP  #监听地址
+      - port： port #监听端口
+  - 安全验证
+    - security:
+      - authorization:  enabled #开启密码验证
+  - 
