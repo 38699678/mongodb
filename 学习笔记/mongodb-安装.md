@@ -7,12 +7,12 @@
 - 下载
   - wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-4.0.18.tgz  
 - 安装前准备：  
-  - 关闭大页内存机制  
+  - 关闭大页内存机制   
     ########################################################################
-    root用户下
-    在vi /etc/rc.local最后添加如下代码
-    if test -f /sys/kernel/mm/transparent_hugepage/enabled; then  
-    echo never > /sys/kernel/mm/transparent_hugepage/enabled  
+    root用户下  
+    在vi /etc/rc.local最后添加如下代码  
+    if test -f /sys/kernel/mm/transparent_hugepage/enabled; then    
+    echo never > /sys/kernel/mm/transparent_hugepage/enabled    
     fi  
     if test -f /sys/kernel/mm/transparent_hugepage/defrag; then  
     echo never > /sys/kernel/mm/transparent_hugepage/defrag  
@@ -50,8 +50,9 @@
     - 登录测试
       - mongo
   - 创建systemd启动脚本：
-    - [Unit]
-      Description=mongodb 
+      ``` bash 
+      [Unit]  
+      Description=mongodb   
       After=network.target remote-fs.target nss-lookup.target
       [Service]
       User=mongod
@@ -62,6 +63,7 @@
       PrivateTmp=true  
       [Install]
       WantedBy=multi-user.target
+      ```
   - 启动mongo
     - /app/mongodb/bin/mongod --config /app/mongodb/conf/mongo.conf
   - 关闭Mongo
