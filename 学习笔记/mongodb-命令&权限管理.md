@@ -87,7 +87,15 @@
   - 如果直接登陆数据库，不需进行use，默认是test库。
   - 从3.6版本，不在配置文件中添加bindIp参数，不可远程登陆，只能本地登陆
   - 创建用户时，一个用户只能登陆和管理一个库，一个会话不能连接多个库，否则会造成数据耦合太高
-
+- 角色role：
+  - 数据库用户角色：read、readWrite;
+  - 数据库管理角色：dbAdmin、dbOwner、userAdmin；
+  - 集群管理角色：clusterAdmin、clusterManager、clusterMonitor、hostManager；
+  - 备份恢复角色：backup、restore；
+  - 所有数据库角色：readAnyDatabase、readWriteAnyDatabase、userAdminAnyDatabase、dbAdminAnyDatabase
+  - 超级用户角色：root
+　 // 这里还有几个角色间接或直接提供了系统超级用户的访问（dbOwner 、userAdmin、userAdminAnyDatabase）
+  - 内部角色：__system PS：关于每个角色所拥有的操作权限可以点击上面的内置角色链接查看详情。
 - 创建用户语法：
 ``` bash
 use admin 
@@ -120,6 +128,8 @@ db.createUser
   - db.createUser({user:"admin",pwd:"123",roles:[{role:"root",db:"admin"}]})
 - 验证用户：
   - db.auth("admin",'123')
+- 修改用户密码：
+  - db.changeUserPassword('admin','tUDfqjDWHR4hSIXs')
 - 查看用户：
   - db.system.users.find().pretty()
 - 删除用户
