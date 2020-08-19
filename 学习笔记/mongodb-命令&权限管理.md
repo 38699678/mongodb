@@ -80,10 +80,23 @@
       - a = 1 or b =1 {$or: [{a: 1},{b: 1}]}
       - a is null {a: {$exists: false}}
       - a in (1,2,3)  {a: {$in: [1,2,3]}}
+    
     - 是用find搜索子文档
       - db.fruit.insertOne({name: "apple",from: {country: "China",province: "Guangdon"}})
       - db.fruit.find({from: {country: 'china'}})
       - db.fruit.find({from.country: "china"})
+    
+    - 使用find搜索数组：
+      - db.fruit.insert([{ "name": "Apple", color: ["red", "green"] },{ "name" : "Mango", color: ["yellow", "green"] }])
+      - db.fruit.find({"color": "red"})
+      - db.fruit.find({$or: [{"color": "red"},{"color": "yellow"}]})
+      
+    - 控制find返回的字段
+      - find可以指定只返回指定的字段；
+      - id字段必须明确指明不返回，否则默认为返回。
+      - 在MongoDB中我们称这为投影（projection）
+      - db.movies.find({"category": "action"},{"_id":0, title:1})
+      
     - 以json格式化输出
       - db.log.find({uid:5}).pretty()  
         {
@@ -93,11 +106,21 @@
             "age" : 6,    
             ("2020-06-13T03:23:16.455Z")  
         }
+        
+    - 使用update更新文档
+      - Update操作执行格式：db.<集合>.update(<查询条件>, <更新字段>)
+      - db.fruit.updateOne({name:"apple"},{$set: {from: "china"}})
+      - 使用updateOne表示无论条件匹配多少条记录，始终只更新第一条；
+      - 使用updateMany表示条件匹配多少条就更新多少条
+      
     - 删除记录
       - db.log.remove({})  #全表删除
         WriteResult({ "nRemoved" : 10000 })
       - db.log.remove({uid:10})  #删除单条记录
         WriteResult({ "nRemoved" : 1 })
+    
+    - 更新文档
+      - 
     - 查看集合存储信息
       - db.log.totalSize()  #该大小包含集合中索引+压缩数据的总大小
         724992
