@@ -31,6 +31,9 @@
       - use test
       - db.dropDatabase() 删除当前的test库 
   - 集合的操作：
+    - 语法：
+      - db.<collection>.insertOne(<json>)
+      - db.<collection>.insertMany([<json>,<json 2>,<json 3>])
     - 建表：
       - db.createCollection('t2')
         { "ok" : 1 }
@@ -58,6 +61,29 @@
     - 按条件查询
       - > db.log.find({uid:5})  
         { "_id" : ObjectId("5ee446a49e410b14cd259b7b"), "uid" : 5, "name" : "mongodb", "age" : 6, "date" : ISODate("2020-06-13T03:23:16.455Z") }
+    - 多添加查询
+      - 多添加and查询
+        - db.movies.find({"year":1989,"title":'batman'}) 
+        - db.movies.find({$and:[{"title":"batman"},{"category":"action"}]})
+      - or
+        - db.movies.find({$or:[{"year":1989},{"title":"batman"}]})
+      - 按正则表达式
+        - db.movies.find({"title":/^b/}) 
+    - 查询条件对照：
+      - a = 1     {a:1}
+      - a <> 1    {a:{$ne: 1}
+      - a > 1     {a: {$gt: 1}}
+      - a >= 1    {a: {$ge: 1}}
+      - a < 1     {a: {$lt: 1}}
+      - a <= 1    {a: {$le: 1}}
+      - a =1 and b =1 {$and: [{a: 1},{b: 1}]}
+      - a = 1 or b =1 {$or: [{a: 1},{b: 1}]}
+      - a is null {a: {$exists: false}}
+      - a in (1,2,3)  {a: {$in: [1,2,3]}}
+    - 是用find搜索子文档
+      - db.fruit.insertOne({name: "apple",from: {country: "China",province: "Guangdon"}})
+      - db.fruit.find({from: {country: 'china'}})
+      - db.fruit.find({from.country: "china"})
     - 以json格式化输出
       - db.log.find({uid:5}).pretty()  
         {
