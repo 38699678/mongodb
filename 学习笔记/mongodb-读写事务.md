@@ -43,13 +43,24 @@
   - MongoShell：
     - db.collection.find({}).readPref("secondary")
 
+### readConcern
 - readConcern: 选择了指定的节点后，readConcern决定这个节点上的数据哪些是可读的，类似于关系数据库的隔离级别。可选值包括：
   - available: 读取所有可用的数据
   - local：读取所有可用且属于当前分片的数据。（默认）
   - majority：读取在大多数节点上提交完成的数据
   - linearizable: 可线性化读取文档
   - snapshot：读取最近快照中的数据
-- readConcern实现读写分离
+
+### readConcern：majority于脏读
+#### mongodb中的回滚：
+  - 写操作到达大多数节点之前都是不安全的，一旦主节点崩溃，而从节点还没复制到该次操作，刚才的写操作就丢失了。
+  - 把一次写操作视为一个事务，从事务的角度，可以认为事务被回滚了。
+
+#### 在可能发生回滚的前提下考虑脏读问题：
+  - 如果在一次写操作到达大多数节点前读取了这个写操作，然后因为系统故障操作回滚了，则发生脏读。
+  - 使用readConcern：majority可以避免脏读
+
+#### readConcern实现读写分离
   - 向主节点写入一条数据；
   - 提交订单订单确认
   - db.orders.insert({ oid: 101, sku: "kiteboar", q: 1}, {writeConcern:{w: "majority”}})
