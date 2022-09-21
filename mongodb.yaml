@@ -1,0 +1,30 @@
+---
+- hosts: mongo
+  remote_user: root
+  vars:
+
+
+  tasks:
+    - name: scp repo
+      copy: src=/data/soft/mongodb-org-4.2.repo  dest=/etc/yum.repos.d/
+    - name: yum
+      shell:  yum install -y mongodb-org-4.2.2 mongodb-org-server-4.2.2 mongodb-org-shell-4.2.2 mongodb-org-mongos-4.2.2 mongodb-org-tools-4.2.2
+
+    #创建目录
+    - name: rm
+      file: path=/data/mongodb state=absent
+    - name: mkdir_1
+      file: path=/data/mongodb state=directory owner=mongod group=mongod mode=0755  
+    - name: mkdir_2
+      file: path=/data/mongodb/data state=directory owner=mongod group=mongod mode=0755    
+    - name: mkdir_3
+      file: path=/data/mongodb/log state=directory owner=mongod group=mongod mode=0755   
+ 
+    - name: scp repo
+      copy: src=/data/soft/mongod.conf  dest=/etc/
+
+    - name: scp access.key
+      copy: src=/data/soft/access.key  dest=/data/mongodb/ mode=0400
+
+    #- name: start
+    #  shell: /usr/bin/mongod -f /etc/mongod.conf
