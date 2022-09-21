@@ -1,0 +1,49 @@
+# mongod.conf
+
+# for documentation of all options, see:
+#   http://docs.mongodb.org/manual/reference/configuration-options/
+
+# where to write logging data.
+systemLog:
+  destination: file
+  logAppend: true
+  path: /data/mongodb/log/mongod.log
+
+# Where and how to store data.
+storage:
+  dbPath: /data/mongodb/data
+  journal:
+    enabled: true
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: 4
+# how the process runs
+processManagement:
+  fork: true  # fork and run in background
+  pidFilePath: /var/run/mongodb/mongod.pid  # location of pidfile
+  timeZoneInfo: /usr/share/zoneinfo
+
+# network interfaces
+net:
+  port: 26060
+  bindIp: 0.0.0.0  # Enter 0.0.0.0,:: to bind to all IPv4 and IPv6 addresses or, alternatively, use the net.bindIpAll setting.
+
+
+#security:
+security:
+  authorization: enabled
+  keyFile: /data/mongodb/access.key 
+
+
+
+#operationProfiling:
+
+replication:
+  replSetName: ty88
+#sharding:
+
+## Enterprise-Only Options
+
+#auditLog:
+
+#snmp:
